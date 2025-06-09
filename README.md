@@ -35,13 +35,19 @@ This project is a demonstration application for the Azure AI Health Insights end
 
 ## Usage
 
-To start the application, run the following command:
+To start the application in development mode with hot reloading, run:
+
+```bash
+npm run dev
+```
+
+For production build and server:
 
 ```bash
 npm start
 ```
 
-This will start both the front-end and back-end servers. You can access the application in your web browser at `http://localhost:3000`.
+The development server will run on `http://localhost:3000` with the API server on `http://localhost:3001`.
 
 ## API Endpoints
 
