@@ -1,0 +1,35 @@
+{
+  "name": "azure-health-insights-demo",
+  "version": "1.0.0",
+  "description": "A demo application for trialing the Azure AI Health Insights endpoint with a vibrant UI.",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "client": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "4.0.3"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.2",
+    "@types/react-dom": "^17.0.2",
+    "typescript": "^4.1.3"
+  },
+  "keywords": [
+    "azure",
+    "health",
+    "insights",
+    "demo",
+    "react"
+  ],
+  "author": "Your Name",
+  "license": "MIT"
+}
