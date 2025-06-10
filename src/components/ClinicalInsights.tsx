@@ -14,10 +14,15 @@ import {
   TableHead,
   TableRow,
   Paper,
+  Alert,
+  Snackbar,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { analyzeClinicalText } from '../services/healthInsightsApi';
+import { ClinicalInsightResponse } from '../types';
+import { Theme } from '@mui/material/styles';
 
-const StyledCard = styled(Card)(({ theme }) => ({
+const StyledCard = styled(Card)<{ theme?: Theme }>(({ theme }) => ({
   padding: theme.spacing(3),
   height: '100%',
 }));
@@ -25,35 +30,24 @@ const StyledCard = styled(Card)(({ theme }) => ({
 const ClinicalInsights: React.FC = () => {
   const [text, setText] = useState('');
   const [loading, setLoading] = useState(false);
-  const [insights, setInsights] = useState<any[]>([]);
+  const [insights, setInsights] = useState<ClinicalInsightResponse['insights']>([]);
+  const [error, setError] = useState<string | null>(null);
 
   const handleAnalyze = async () => {
     setLoading(true);
+    setError(null);
     try {
-      // TODO: Implement actual API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setInsights([
-        {
-          category: 'Diagnosis',
-          finding: 'Type 2 Diabetes Mellitus',
-          confidence: 0.95,
-          evidence: 'Patient presents with elevated blood glucose levels',
-        },
-        {
-          category: 'Treatment',
-          finding: 'Metformin 500mg twice daily',
-          confidence: 0.98,
-          evidence: 'Current medication regimen includes Metformin',
-        },
-        {
-          category: 'Lab Result',
-          finding: 'HbA1c elevated',
-          confidence: 0.92,
-          evidence: 'Recent lab results show HbA1c at 7.8%',
-        },
-      ]);
-    } catch (error) {
+      const savedConfig = localStorage.getItem('healthInsightsConfig');
+      if (!savedConfig) {
+        throw new Error('API configuration not found. Please configure the API endpoint first.');
+      }
+
+      const config = JSON.parse(savedConfig);
+      const response = await analyzeClinicalText(config, text);
+      setInsights(response.insights);
+    } catch (error: any) {
       console.error('Error analyzing clinical text:', error);
+      setError(error.message || 'An error occurred while analyzing the text');
     } finally {
       setLoading(false);
     }
@@ -131,6 +125,21 @@ const ClinicalInsights: React.FC = () => {
           </StyledCard>
         </Grid>
       </Grid>
+
+      <Snackbar
+        open={!!error}
+        autoHideDuration={6000}
+        onClose={() => setError(null)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert
+          onClose={() => setError(null)}
+          severity="error"
+          variant="filled"
+        >
+          {error}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

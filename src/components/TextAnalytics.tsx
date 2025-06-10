@@ -12,10 +12,15 @@ import {
   ListItemText,
   Divider,
   Chip,
+  Alert,
+  Snackbar,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { analyzeText } from '../services/healthInsightsApi';
+import { TextAnalysisResponse } from '../types';
+import { Theme } from '@mui/material/styles';
 
-const StyledCard = styled(Card)(({ theme }) => ({
+const StyledCard = styled(Card)<{ theme?: Theme }>(({ theme }) => ({
   padding: theme.spacing(3),
   height: '100%',
 }));
@@ -23,39 +28,24 @@ const StyledCard = styled(Card)(({ theme }) => ({
 const TextAnalytics: React.FC = () => {
   const [text, setText] = useState('');
   const [loading, setLoading] = useState(false);
-  const [analysis, setAnalysis] = useState<any>(null);
+  const [analysis, setAnalysis] = useState<TextAnalysisResponse | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const handleAnalyze = async () => {
     setLoading(true);
+    setError(null);
     try {
-      // TODO: Implement actual API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setAnalysis({
-        sentiment: {
-          score: 0.85,
-          label: 'Positive',
-        },
-        keyPhrases: [
-          'patient recovery',
-          'blood pressure',
-          'normal range',
-          'medication response',
-        ],
-        entities: [
-          {
-            text: 'Aspirin',
-            category: 'Medication',
-            confidence: 0.95,
-          },
-          {
-            text: 'blood pressure',
-            category: 'Vital Sign',
-            confidence: 0.92,
-          },
-        ],
-      });
-    } catch (error) {
+      const savedConfig = localStorage.getItem('healthInsightsConfig');
+      if (!savedConfig) {
+        throw new Error('API configuration not found. Please configure the API endpoint first.');
+      }
+
+      const config = JSON.parse(savedConfig);
+      const response = await analyzeText(config, text);
+      setAnalysis(response);
+    } catch (error: any) {
       console.error('Error analyzing text:', error);
+      setError(error.message || 'An error occurred while analyzing the text');
     } finally {
       setLoading(false);
     }
@@ -177,6 +167,21 @@ const TextAnalytics: React.FC = () => {
           )}
         </Grid>
       </Grid>
+
+      <Snackbar
+        open={!!error}
+        autoHideDuration={6000}
+        onClose={() => setError(null)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert
+          onClose={() => setError(null)}
+          severity="error"
+          variant="filled"
+        >
+          {error}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

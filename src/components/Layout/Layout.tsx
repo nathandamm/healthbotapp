@@ -1,9 +1,10 @@
 import React from 'react';
 import { Box, Container, styled } from '@mui/material';
+import { Theme } from '@mui/material/styles';
 import Sidebar from './Sidebar';
 import Header from '../Header';
 
-const LayoutRoot = styled(Box)(({ theme }) => ({
+const LayoutRoot = styled(Box)<{ theme?: Theme }>(({ theme }) => ({
   display: 'flex',
   background: theme.palette.background.default,
   minHeight: '100vh',

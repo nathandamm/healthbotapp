@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
   Box,
@@ -10,6 +10,7 @@ import {
   Typography,
   styled,
 } from '@mui/material';
+import { Theme } from '@mui/material/styles';
 import {
   Dashboard as DashboardIcon,
   Settings as SettingsIcon,
@@ -40,7 +41,15 @@ const Logo = styled(Box)(({ theme }) => ({
   gap: theme.spacing(2),
 }));
 
-const StyledListItem = styled(ListItem)<{ active?: boolean }>(({ theme, active }) => ({
+interface StyledListItemProps {
+  active?: boolean;
+  component?: React.ElementType;
+  to?: string;
+}
+
+const StyledListItem = styled(ListItem, {
+  shouldForwardProp: (prop) => prop !== 'active'
+})<StyledListItemProps>(({ theme, active }) => ({
   marginBottom: theme.spacing(1),
   marginLeft: theme.spacing(2),
   marginRight: theme.spacing(2),
@@ -53,6 +62,7 @@ const StyledListItem = styled(ListItem)<{ active?: boolean }>(({ theme, active }
   '& .MuiListItemIcon-root': {
     color: active ? theme.palette.common.white : theme.palette.text.primary,
   },
+  textDecoration: 'none',
 }));
 
 const menuItems = [
