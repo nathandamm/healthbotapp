@@ -1,12 +1,15 @@
-export const getHealthInsights = async (req, res) => {
-    const { endpoint, apiKey } = req.body;
+import { Request, Response } from 'express';
 
-    if (!endpoint || !apiKey) {
-        return res.status(400).json({ error: 'Endpoint and API key are required.' });
+export const getHealthInsights = async (req: Request, res: Response) => {
+    const apiEndpoint = process.env.REACT_APP_AZURE_API_ENDPOINT;
+    const apiKey = process.env.REACT_APP_AZURE_API_KEY;
+
+    if (!apiEndpoint || !apiKey) {
+        return res.status(500).json({ error: 'Azure API configuration is missing in environment variables.' });
     }
 
     try {
-        const response = await fetch(endpoint, {
+        const response = await fetch(apiEndpoint, {
             method: 'GET',
             headers: {
                 'Ocp-Apim-Subscription-Key': apiKey,
@@ -21,6 +24,6 @@ export const getHealthInsights = async (req, res) => {
         const data = await response.json();
         res.status(200).json(data);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: error instanceof Error ? error.message : 'An unknown error occurred' });
     }
 };

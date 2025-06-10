@@ -1,11 +1,6 @@
 import { Config } from '../types';
 
-import { config } from 'dotenv';
-import { resolve } from 'path';
-
-// Load environment variables from config/.env
-config({ path: resolve(__dirname, '../../config/.env') });
-
+// In Create React App, env variables are automatically loaded from .env files
 export const getConfig = (): Config => {
     const apiEndpoint = process.env.REACT_APP_AZURE_API_ENDPOINT;
     const apiKey = process.env.REACT_APP_AZURE_API_KEY;

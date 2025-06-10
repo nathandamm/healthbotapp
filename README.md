@@ -31,12 +31,18 @@ This project is a demonstration application for the Azure AI Health Insights end
    npm install
    ```
 
-3. Configure your Azure credentials in `config/.env` with the following environment variables:
-   ```
-   REACT_APP_AZURE_API_ENDPOINT=your-azure-endpoint
-   REACT_APP_AZURE_API_KEY=your-azure-key
-   ```
-   Replace `your-azure-endpoint` and `your-azure-key` with your Azure AI Health Insights service credentials.
+3. Configure your Azure credentials:
+   - Copy `.env.example` to `.env` in the root directory:
+     ```bash
+     cp .env.example .env
+     ```
+   - Update the values in `.env` with your Azure AI Health Insights service credentials:
+     ```
+     REACT_APP_AZURE_API_ENDPOINT=your-azure-endpoint
+     REACT_APP_AZURE_API_KEY=your-azure-key
+     ```
+   
+   Note: The environment variables are used by both the React frontend and Express backend.
 
 ## Usage
 
