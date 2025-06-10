@@ -67,10 +67,8 @@ const StyledListItem = styled(ListItem, {
 
 const menuItems = [
   { text: 'Dashboard', icon: <DashboardIcon />, path: '/' },
-  { text: 'Text Analytics', icon: <DocumentScannerIcon />, path: '/text-analytics' },
-  { text: 'Medical Entity', icon: <MedicalServicesIcon />, path: '/medical-entity' },
-  { text: 'Health NLP', icon: <PsychologyIcon />, path: '/health-nlp' },
-  { text: 'Clinical Insights', icon: <AssessmentIcon />, path: '/clinical-insights' },
+  { text: 'Trial Matcher', icon: <MedicalServicesIcon />, path: '/trial-matcher' },
+  { text: 'Radiology Insights', icon: <DocumentScannerIcon />, path: '/radiology-insights' },
 ];
 
 const Sidebar: React.FC = () => {

@@ -21,32 +21,18 @@ const Dashboard: React.FC = () => {
 
   const features = [
     {
-      title: 'Text Analytics',
-      description: 'Analyze medical text to extract insights and sentiment.',
-      icon: <DocumentScanner sx={{ fontSize: 40 }} />,
-      path: '/text-analytics',
+      title: 'Trial Matcher',
+      description: 'Match patients with relevant clinical trials based on condition and location.',
+      icon: <MedicalServices sx={{ fontSize: 40 }} />,
+      path: '/trial-matcher',
       color: theme.palette.primary.main,
     },
     {
-      title: 'Medical Entity Recognition',
-      description: 'Extract medical entities from clinical documentation.',
-      icon: <MedicalServices sx={{ fontSize: 40 }} />,
-      path: '/medical-entity',
+      title: 'Radiology Insights',
+      description: 'Analyze radiology reports to detect discrepancies and extract key findings.',
+      icon: <DocumentScanner sx={{ fontSize: 40 }} />,
+      path: '/radiology-insights',
       color: theme.palette.secondary.main,
-    },
-    {
-      title: 'Health NLP',
-      description: 'Process and understand natural language in medical context.',
-      icon: <Psychology sx={{ fontSize: 40 }} />,
-      path: '/health-nlp',
-      color: '#FF9800',
-    },
-    {
-      title: 'Clinical Insights',
-      description: 'Extract meaningful insights from medical documentation.',
-      icon: <Assessment sx={{ fontSize: 40 }} />,
-      path: '/clinical-insights',
-      color: '#4CAF50',
     },
   ];
 
@@ -54,10 +40,10 @@ const Dashboard: React.FC = () => {
     <Box>
       <Box sx={{ mb: 6 }}>
         <Typography variant="h3" gutterBottom>
-          Welcome to Health Insights
+          Azure AI Health Insights
         </Typography>
         <Typography variant="h6" color="text.secondary">
-          Explore the power of Azure AI Health Insights through our interactive demo application.
+          Use Trial Matcher to find relevant clinical trials and Radiology Insights to analyze medical imaging reports.
         </Typography>
       </Box>
 

@@ -1,7 +1,6 @@
 import axios from 'axios';
-import { Config } from '../types';
-
 import { getConfig } from '../utils/config';
+import { TrialMatcherRequest, RadiologyInsightsRequest, TrialMatcherResponse, RadiologyInsightsResponse } from '../types';
 
 const getBaseUrl = () => {
     const config = getConfig();
@@ -10,42 +9,12 @@ const getBaseUrl = () => {
         : config.apiEndpoint;
 };
 
-export interface TextAnalyticsResponse {
-    sentiment: {
-        score: number;
-        label: string;
-    };
-    keyPhrases: string[];
-    entities: Array<{
-        text: string;
-        category: string;
-        confidence: number;
-    }>;
-}
-
-export interface MedicalEntityResponse {
-    entities: Array<{
-        text: string;
-        category: string;
-        confidence: number;
-    }>;
-}
-
-export interface ClinicalInsightResponse {
-    insights: Array<{
-        category: string;
-        finding: string;
-        confidence: number;
-        evidence: string;
-    }>;
-}
-
-export const analyzeText = async (text: string): Promise<TextAnalyticsResponse> => {
+export const submitTrialMatcherJob = async (request: TrialMatcherRequest): Promise<{ jobId: string }> => {
     try {
         const config = getConfig();
         const response = await axios.post(
-            `${getBaseUrl()}/text/analyze`,
-            { text },
+            `${getBaseUrl()}/trialmatcher/jobs`,
+            request,
             {
                 headers: {
                     'Ocp-Apim-Subscription-Key': config.apiKey,
@@ -53,39 +22,37 @@ export const analyzeText = async (text: string): Promise<TextAnalyticsResponse> 
                 },
             }
         );
-        return response.data;
+        return { jobId: response.data.jobId };
     } catch (error) {
-        console.error('Error analyzing text:', error);
+        console.error('Error submitting trial matcher job:', error);
         throw error;
     }
 };
 
-export const extractMedicalEntities = async (text: string): Promise<MedicalEntityResponse> => {
+export const getTrialMatcherResults = async (jobId: string): Promise<TrialMatcherResponse> => {
     try {
         const config = getConfig();
-        const response = await axios.post(
-            `${getBaseUrl()}/entities/medical`,
-            { text },
+        const response = await axios.get(
+            `${getBaseUrl()}/trialmatcher/jobs/${jobId}`,
             {
                 headers: {
                     'Ocp-Apim-Subscription-Key': config.apiKey,
-                    'Content-Type': 'application/json',
                 },
             }
         );
         return response.data;
     } catch (error) {
-        console.error('Error extracting medical entities:', error);
+        console.error('Error getting trial matcher results:', error);
         throw error;
     }
 };
 
-export const analyzeClinicalText = async (text: string): Promise<ClinicalInsightResponse> => {
+export const submitRadiologyInsightsJob = async (request: RadiologyInsightsRequest): Promise<{ jobId: string }> => {
     try {
         const config = getConfig();
         const response = await axios.post(
-            `${getBaseUrl()}/clinical/analyze`,
-            { text },
+            `${getBaseUrl()}/radiologyinsights/jobs`,
+            request,
             {
                 headers: {
                     'Ocp-Apim-Subscription-Key': config.apiKey,
@@ -93,9 +60,27 @@ export const analyzeClinicalText = async (text: string): Promise<ClinicalInsight
                 },
             }
         );
+        return { jobId: response.data.jobId };
+    } catch (error) {
+        console.error('Error submitting radiology insights job:', error);
+        throw error;
+    }
+};
+
+export const getRadiologyInsightsResults = async (jobId: string): Promise<RadiologyInsightsResponse> => {
+    try {
+        const config = getConfig();
+        const response = await axios.get(
+            `${getBaseUrl()}/radiologyinsights/jobs/${jobId}`,
+            {
+                headers: {
+                    'Ocp-Apim-Subscription-Key': config.apiKey,
+                },
+            }
+        );
         return response.data;
     } catch (error) {
-        console.error('Error analyzing clinical text:', error);
+        console.error('Error getting radiology insights results:', error);
         throw error;
     }
 };

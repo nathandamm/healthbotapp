@@ -5,9 +5,8 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { theme } from './theme';
 import Layout from './components/Layout/Layout';
 import Dashboard from './components/Dashboard';
-import TextAnalytics from './components/TextAnalytics';
-import MedicalEntity from './components/MedicalEntity';
-import ClinicalInsights from './components/ClinicalInsights';
+import TrialMatcher from './components/TrialMatcher';
+import RadiologyInsights from './components/RadiologyInsights';
 
 const App: React.FC = () => {
   return (
@@ -17,9 +16,8 @@ const App: React.FC = () => {
         <Layout>
           <Routes>
             <Route path="/" element={<Dashboard />} />
-            <Route path="/text-analytics" element={<TextAnalytics />} />
-            <Route path="/medical-entity" element={<MedicalEntity />} />
-            <Route path="/clinical-insights" element={<ClinicalInsights />} />
+            <Route path="/trial-matcher" element={<TrialMatcher />} />
+            <Route path="/radiology-insights" element={<RadiologyInsights />} />
           </Routes>
         </Layout>
       </Router>
