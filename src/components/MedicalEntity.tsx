@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { extractMedicalEntities } from '../services/healthInsightsApi';
 import {
   Box,
   Card,
@@ -12,6 +13,8 @@ import {
   ListItem,
   ListItemText,
   Divider,
+  Snackbar,
+  Alert,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
@@ -28,19 +31,23 @@ const MedicalEntity: React.FC = () => {
   const [text, setText] = useState('');
   const [loading, setLoading] = useState(false);
   const [entities, setEntities] = useState<any[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   const handleExtract = async () => {
     setLoading(true);
+    setError(null);
     try {
-      // TODO: Implement actual API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setEntities([
-        { text: 'Type 2 Diabetes', category: 'Condition', confidence: 0.95 },
-        { text: 'Metformin', category: 'Medication', confidence: 0.98 },
-        { text: 'Blood glucose', category: 'Test', confidence: 0.92 },
-      ]);
-    } catch (error) {
+      const savedConfig = localStorage.getItem('healthInsightsConfig');
+      if (!savedConfig) {
+        throw new Error('API configuration not found. Please configure the API endpoint first.');
+      }
+
+      const config = JSON.parse(savedConfig);
+      const response = await extractMedicalEntities(config, text);
+      setEntities(response.entities);
+    } catch (error: any) {
       console.error('Error extracting entities:', error);
+      setError(error.message || 'An error occurred while processing the text');
     } finally {
       setLoading(false);
     }
@@ -120,6 +127,21 @@ const MedicalEntity: React.FC = () => {
           </StyledCard>
         </Grid>
       </Grid>
+
+      <Snackbar
+        open={!!error}
+        autoHideDuration={6000}
+        onClose={() => setError(null)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert
+          onClose={() => setError(null)}
+          severity="error"
+          variant="filled"
+        >
+          {error}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

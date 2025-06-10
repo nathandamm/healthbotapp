@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Container, styled } from '@mui/material';
 import Sidebar from './Sidebar';
-import Header from './Header';
+import Header from '../Header';
 
 const LayoutRoot = styled(Box)(({ theme }) => ({
   display: 'flex',

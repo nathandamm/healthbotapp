@@ -76,13 +76,11 @@ const Sidebar: React.FC = () => {
         </Typography>
       </Logo>
       <List>
-        {menuItems.map((item) => (
-          <StyledListItem
-            key={item.text}
-            component={Link}
-            to={item.path}
-            active={location.pathname === item.path}
-            button
+        {menuItems.map((item) => (            <StyledListItem
+              key={item.text}
+              component={Link}
+              to={item.path}
+              active={location.pathname === item.path}
           >
             <ListItemIcon>{item.icon}</ListItemIcon>
             <ListItemText primary={item.text} />

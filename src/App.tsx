@@ -27,5 +27,8 @@ const App: React.FC = () => {
       </Router>
     </ThemeProvider>
   );
+};
+
+export default App;
 
 export default App;
