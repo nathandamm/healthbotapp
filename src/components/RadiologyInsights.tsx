@@ -131,12 +131,12 @@ const RadiologyInsights: React.FC = () => {
       };
 
       const newJobId = await submitRadiologyInsightsJob(request);
-      setJobId(newJobId);
+      setJobId(newJobId.jobId);
       
       // Poll for results
       const checkResults = async () => {
         try {
-          const response = await getRadiologyInsightsResults(newJobId);
+          const response = await getRadiologyInsightsResults(newJobId.jobId);
           if (response.status === 'succeeded') {
             setResults(response);
             setLoading(false);

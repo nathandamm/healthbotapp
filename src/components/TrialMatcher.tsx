@@ -82,12 +82,12 @@ const TrialMatcher: React.FC = () => {
       };
 
       const newJobId = await submitTrialMatcherJob(request);
-      setJobId(newJobId);
+      setJobId(newJobId.jobId);
       
       // Poll for results
       const checkResults = async () => {
         try {
-          const response = await getTrialMatcherResults(newJobId);
+          const response = await getTrialMatcherResults(newJobId.jobId);
           if (response.status === 'succeeded') {
             setResults(response);
             setLoading(false);
