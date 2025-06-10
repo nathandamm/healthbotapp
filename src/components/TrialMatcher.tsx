@@ -17,6 +17,10 @@ import {
   Paper,
   Alert,
   Snackbar,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Theme } from '@mui/material/styles';
@@ -151,13 +155,14 @@ const TrialMatcher: React.FC = () => {
             </Typography>
 
             <FormControl sx={{ width: '50%', mb: 2 }}>
-              <InputLabel id="sex-label">Sex</InputLabel>
+              <InputLabel id="trial-sex-label">Sex</InputLabel>
               <Select
-                labelId="sex-label"
+                labelId="trial-sex-label"
+                label="Sex"
                 size="small"
+                sx={{ '& .MuiSelect-select': { display: 'flex', alignItems: 'center' } }}
                 value={patientInfo.sex}
                 onChange={(e) => setPatientInfo({ ...patientInfo, sex: e.target.value })}
-                label="Sex"
               >
                 <MenuItem value="">Select...</MenuItem>
                 <MenuItem value="male">Male</MenuItem>

@@ -170,12 +170,15 @@ const RadiologyInsights: React.FC = () => {
       <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
           <StyledCard>
-            <Typography variant="h6" gutterBottom>
+            <Typography variant="h6" gutterBottom sx={{ mb: 3 }}>
               Report Information
             </Typography>
 
-            <FormControl sx={{ width: '90%', mb: 3, mt: 2 }}>
-              <InputLabel>Inference Types</InputLabel>
+            <Typography variant="subtitle2" gutterBottom>
+              Select Inference Types
+            </Typography>
+
+            <FormControl sx={{ width: '90%', mb: 3 }}>
               <Select
                 multiple
                 size="small"
@@ -222,6 +225,7 @@ const RadiologyInsights: React.FC = () => {
                 size="small"
                 value={patientInfo.sex}
                 onChange={(e) => setPatientInfo({ ...patientInfo, sex: e.target.value })}
+                sx={{ '& .MuiSelect-select': { display: 'flex', alignItems: 'center' } }}
                 label="Sex"
               >
                 <MenuItem value="">Select...</MenuItem>
