@@ -35,13 +35,7 @@ const TextAnalytics: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const savedConfig = localStorage.getItem('healthInsightsConfig');
-      if (!savedConfig) {
-        throw new Error('API configuration not found. Please configure the API endpoint first.');
-      }
-
-      const config = JSON.parse(savedConfig);
-      const response = await analyzeText(config, text);
+      const response = await analyzeText(text);
       setAnalysis(response);
     } catch (error: any) {
       console.error('Error analyzing text:', error);

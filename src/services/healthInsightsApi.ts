@@ -1,7 +1,10 @@
 import axios from 'axios';
 import { Config } from '../types';
 
-const getBaseUrl = (config: Config) => {
+import { getConfig } from '../utils/config';
+
+const getBaseUrl = () => {
+    const config = getConfig();
     return config.apiEndpoint.endsWith('/')
         ? config.apiEndpoint.slice(0, -1)
         : config.apiEndpoint;
@@ -37,13 +40,11 @@ export interface ClinicalInsightResponse {
     }>;
 }
 
-export const analyzeText = async (
-    config: Config,
-    text: string
-): Promise<TextAnalyticsResponse> => {
+export const analyzeText = async (text: string): Promise<TextAnalyticsResponse> => {
     try {
+        const config = getConfig();
         const response = await axios.post(
-            `${getBaseUrl(config)}/text/analyze`,
+            `${getBaseUrl()}/text/analyze`,
             { text },
             {
                 headers: {
@@ -59,13 +60,11 @@ export const analyzeText = async (
     }
 };
 
-export const extractMedicalEntities = async (
-    config: Config,
-    text: string
-): Promise<MedicalEntityResponse> => {
+export const extractMedicalEntities = async (text: string): Promise<MedicalEntityResponse> => {
     try {
+        const config = getConfig();
         const response = await axios.post(
-            `${getBaseUrl(config)}/entities/medical`,
+            `${getBaseUrl()}/entities/medical`,
             { text },
             {
                 headers: {
@@ -81,13 +80,11 @@ export const extractMedicalEntities = async (
     }
 };
 
-export const analyzeClinicalText = async (
-    config: Config,
-    text: string
-): Promise<ClinicalInsightResponse> => {
+export const analyzeClinicalText = async (text: string): Promise<ClinicalInsightResponse> => {
     try {
+        const config = getConfig();
         const response = await axios.post(
-            `${getBaseUrl(config)}/clinical/analyze`,
+            `${getBaseUrl()}/clinical/analyze`,
             { text },
             {
                 headers: {

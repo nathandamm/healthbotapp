@@ -71,7 +71,6 @@ const menuItems = [
   { text: 'Medical Entity', icon: <MedicalServicesIcon />, path: '/medical-entity' },
   { text: 'Health NLP', icon: <PsychologyIcon />, path: '/health-nlp' },
   { text: 'Clinical Insights', icon: <AssessmentIcon />, path: '/clinical-insights' },
-  { text: 'Configuration', icon: <SettingsIcon />, path: '/config' },
 ];
 
 const Sidebar: React.FC = () => {

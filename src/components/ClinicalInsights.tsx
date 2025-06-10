@@ -37,13 +37,7 @@ const ClinicalInsights: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const savedConfig = localStorage.getItem('healthInsightsConfig');
-      if (!savedConfig) {
-        throw new Error('API configuration not found. Please configure the API endpoint first.');
-      }
-
-      const config = JSON.parse(savedConfig);
-      const response = await analyzeClinicalText(config, text);
+      const response = await analyzeClinicalText(text);
       setInsights(response.insights);
     } catch (error: any) {
       console.error('Error analyzing clinical text:', error);

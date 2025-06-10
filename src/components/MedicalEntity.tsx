@@ -37,13 +37,7 @@ const MedicalEntity: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const savedConfig = localStorage.getItem('healthInsightsConfig');
-      if (!savedConfig) {
-        throw new Error('API configuration not found. Please configure the API endpoint first.');
-      }
-
-      const config = JSON.parse(savedConfig);
-      const response = await extractMedicalEntities(config, text);
+      const response = await extractMedicalEntities(text);
       setEntities(response.entities);
     } catch (error: any) {
       console.error('Error extracting entities:', error);

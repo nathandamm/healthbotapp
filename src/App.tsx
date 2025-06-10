@@ -5,7 +5,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { theme } from './theme';
 import Layout from './components/Layout/Layout';
 import Dashboard from './components/Dashboard';
-import EndpointConfig from './components/EndpointConfig';
 import TextAnalytics from './components/TextAnalytics';
 import MedicalEntity from './components/MedicalEntity';
 import ClinicalInsights from './components/ClinicalInsights';
@@ -21,7 +20,6 @@ const App: React.FC = () => {
             <Route path="/text-analytics" element={<TextAnalytics />} />
             <Route path="/medical-entity" element={<MedicalEntity />} />
             <Route path="/clinical-insights" element={<ClinicalInsights />} />
-            <Route path="/config" element={<EndpointConfig />} />
           </Routes>
         </Layout>
       </Router>
