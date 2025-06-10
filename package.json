@@ -4,13 +4,13 @@
   "description": "A demo application for trialing the Azure AI Health Insights endpoint with a vibrant UI.",
   "main": "server/server.js",
   "scripts": {
-    "start": "npm run build && node server/server.js",
+    "start": "node server/server.js",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "server": "nodemon server/server.js",
-    "client": "npx react-scripts start",
-    "build": "npx react-scripts build",
-    "test": "npx react-scripts test",
-    "eject": "npx react-scripts eject"
+    "client": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "dependencies": {
     "axios": "^1.9.0",
@@ -20,9 +20,10 @@
     "nodemon": "^3.0.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-scripts": "5.0.1"
+    "react-scripts": "^5.0.0"
   },
   "devDependencies": {
+    "@types/prop-types": "^15.7.5",
     "@types/react": "^17.0.2",
     "@types/react-dom": "^17.0.2",
     "typescript": "^4.9.5"
@@ -37,6 +38,6 @@
     "demo",
     "react"
   ],
-  "author": "Your Name",
+  "author": "Nathan Damm",
   "license": "MIT"
 }
