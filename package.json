@@ -19,12 +19,14 @@
     "express": "^4.18.2",
     "nodemon": "^3.0.2",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "react-router-dom": "^6.14.0"
   },
   "devDependencies": {
     "@types/prop-types": "^15.7.5",
     "@types/react": "^17.0.2",
     "@types/react-dom": "^17.0.2",
+    "@types/react-router-dom": "^5.3.3",
     "typescript": "^4.9.5",
     "react-scripts": "^5.0.0"
   },
@@ -39,5 +41,17 @@
     "react"
   ],
   "author": "Nathan Damm",
-  "license": "MIT"
+  "license": "MIT",
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }
