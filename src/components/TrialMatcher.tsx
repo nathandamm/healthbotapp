@@ -56,7 +56,7 @@ const TrialMatcher: React.FC = () => {
     setError(null);
     try {
       const request: TrialMatcherRequest = {
-        Configuration: {
+        jobData:{Configuration: {
           ClinicalTrials: {
             RegistryFilters: [{
               Sources: ['Clinicaltrials_gov'],
@@ -72,13 +72,13 @@ const TrialMatcher: React.FC = () => {
           Verbose: false
         },
         Patients: [{
-          Info: {
+          details: {
             sex: patientInfo.sex || undefined,
             birthDate: patientInfo.birthDate || undefined,
             ClinicalInfo: []
           },
           id: patientInfo.id
-        }]
+        }]}
       };
 
       const newJobId = await submitTrialMatcherJob(request);
@@ -88,11 +88,10 @@ const TrialMatcher: React.FC = () => {
       const checkResults = async () => {
         try {
           const response = await getTrialMatcherResults(newJobId.jobId);
-          if (response.status === 'succeeded') {
+          // Check if results are available by presence of patientResults array
+          if (response.result && Array.isArray(response.result.patientResults) && response.result.patientResults.length > 0 && Array.isArray(response.result.patientResults[0].inferences)) {
             setResults(response);
             setLoading(false);
-          } else if (response.status === 'failed') {
-            throw new Error('Job processing failed');
           } else {
             setTimeout(checkResults, 2000); // Poll every 2 seconds
           }
@@ -196,8 +195,7 @@ const TrialMatcher: React.FC = () => {
             <Typography variant="h6" gutterBottom>
               Matching Trials
             </Typography>
-            
-            {results?.results?.patients[0]?.inferences ? (
+            {results?.result?.patientResults?.length && results.result.patientResults[0]?.inferences?.length ? (
               <TableContainer component={Paper} elevation={0}>
                 <Table>
                   <TableHead>
@@ -205,14 +203,16 @@ const TrialMatcher: React.FC = () => {
                       <TableCell>Trial ID</TableCell>
                       <TableCell>Source</TableCell>
                       <TableCell>Status</TableCell>
+                      <TableCell>Confidence</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {results.results.patients[0].inferences.map((inference) => (
-                      <TableRow key={inference.id}>
-                        <TableCell>{inference.id}</TableCell>
-                        <TableCell>{inference.source}</TableCell>
-                        <TableCell>{inference.value}</TableCell>
+                    {results.result.patientResults[0].inferences.map((inference, idx) => (
+                      <TableRow key={inference.clinicalTrialId || idx}>
+                        <TableCell>{inference.clinicalTrialId || '-'}</TableCell>
+                        <TableCell>{inference.source || '-'}</TableCell>
+                        <TableCell>{inference.value || '-'}</TableCell>
+                        <TableCell>{inference.confidenceScore != null ? inference.confidenceScore : '-'}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>

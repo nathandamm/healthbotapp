@@ -4,56 +4,47 @@ export interface Config {
 }
 
 export interface TrialMatcherRequest {
-    Configuration: {
-        ClinicalTrials: {
-            RegistryFilters: Array<{
-                Sources: string[];
-                Conditions: string[];
-                facilityLocations?: Array<{
-                    State: string;
-                    City: string;
-                    countryOrRegion: string;
+    jobData: {
+        Configuration: {
+            ClinicalTrials: {
+                RegistryFilters: Array<{
+                    Sources: string[];
+                    Conditions: string[];
+                    facilityLocations?: Array<{
+                        State: string;
+                        City: string;
+                        countryOrRegion: string;
+                    }>;
                 }>;
-            }>;
+            };
+            IncludeEvidence: boolean;
+            Verbose: boolean;
         };
-        IncludeEvidence: boolean;
-        Verbose: boolean;
+        Patients: Array<{
+            details: {
+                sex?: string;
+                birthDate?: string;
+                ClinicalInfo: any[];
+            };
+            id: string;
+        }>;
     };
-    Patients: Array<{
-        Info: {
-            sex?: string;
-            birthDate?: string;
-            ClinicalInfo: any[];
-        };
-        id: string;
-    }>;
 }
 
 export interface TrialMatcherResponse {
-    results: {
-        patients: Array<{
-            id: string;
+    result: {
+        patientResults: Array<{
+            patientId: string;
             inferences: Array<{
                 type: string;
-                id: string;
+                clinicalTrialId: string;
                 source: string;
                 value: string;
-            }>;
-            neededClinicalInfo: Array<{
-                system: string;
-                code: string;
-                name: string;
-                semanticType?: string;
+                confidenceScore: number;
             }>;
         }>;
-        modelVersion: string;
-        knowledgeGraphLastUpdateDate: string;
+        knowledgeGraphLastUpdateDate?: string;
     };
-    jobId: string;
-    createdDateTime: string;
-    expirationDateTime: string;
-    lastUpdateDateTime: string;
-    status: string;
 }
 
 export interface RadiologyInsightsRequest {

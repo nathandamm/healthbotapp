@@ -9,20 +9,34 @@ const getBaseUrl = () => {
         : config.apiEndpoint;
 };
 
+// Utility function to generate a random alphanumeric jobId up to 36 characters
+const generateJobId = (): string => {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    for (let i = 0; i < 36; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return result;
+};
+
 export const submitTrialMatcherJob = async (request: TrialMatcherRequest): Promise<{ jobId: string }> => {
     try {
         const config = getConfig();
-        const response = await axios.post(
-            `${getBaseUrl()}/trialmatcher/jobs`,
+        const jobId = generateJobId();
+        const response = await axios.put(
+            `${getBaseUrl()}/health-insights/trial-matcher/jobs/${jobId}`,
             request,
             {
                 headers: {
                     'Ocp-Apim-Subscription-Key': config.apiKey,
                     'Content-Type': 'application/json',
                 },
+                params: {
+                    'api-version': '2024-08-01-preview',
+                },
             }
         );
-        return { jobId: response.data.jobId };
+        return { jobId: response.data.id };
     } catch (error) {
         console.error('Error submitting trial matcher job:', error);
         throw error;
@@ -33,10 +47,13 @@ export const getTrialMatcherResults = async (jobId: string): Promise<TrialMatche
     try {
         const config = getConfig();
         const response = await axios.get(
-            `${getBaseUrl()}/trialmatcher/jobs/${jobId}`,
+            `${getBaseUrl()}/health-insights/trial-matcher/jobs/${jobId}`,
             {
                 headers: {
                     'Ocp-Apim-Subscription-Key': config.apiKey,
+                },
+                params: {
+                    'api-version': '2024-08-01-preview',
                 },
             }
         );
@@ -50,17 +67,21 @@ export const getTrialMatcherResults = async (jobId: string): Promise<TrialMatche
 export const submitRadiologyInsightsJob = async (request: RadiologyInsightsRequest): Promise<{ jobId: string }> => {
     try {
         const config = getConfig();
-        const response = await axios.post(
-            `${getBaseUrl()}/radiologyinsights/jobs`,
+        const jobId = generateJobId();
+        const response = await axios.put(
+            `${getBaseUrl()}/health-insights/radiology-insights/jobs/${jobId}`,
             request,
             {
                 headers: {
                     'Ocp-Apim-Subscription-Key': config.apiKey,
                     'Content-Type': 'application/json',
                 },
+                params: {
+                    'api-version': '2024-04-01',
+                },
             }
         );
-        return { jobId: response.data.jobId };
+        return { jobId: response.data.id };
     } catch (error) {
         console.error('Error submitting radiology insights job:', error);
         throw error;
@@ -71,10 +92,13 @@ export const getRadiologyInsightsResults = async (jobId: string): Promise<Radiol
     try {
         const config = getConfig();
         const response = await axios.get(
-            `${getBaseUrl()}/radiologyinsights/jobs/${jobId}`,
+            `${getBaseUrl()}/health-insights/radiology-insights/jobs/${jobId}`,
             {
                 headers: {
                     'Ocp-Apim-Subscription-Key': config.apiKey,
+                },
+                params: {
+                    'api-version': '2024-04-01',
                 },
             }
         );
